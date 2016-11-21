@@ -1,6 +1,6 @@
 /*
 	
-	breakpoints.fab 1.1
+	breakpoints.fab 1.2
 	
 */
 
@@ -8,7 +8,7 @@
 /* --- VARS --- */
 
 // Breakpoints
-$breakpoints: 1280, 1024, 900, 768, 600, 480;
+$breakpoints: 1280, 1024, 1000;
 
 // Display
 $displays: inline-block, flex;
@@ -24,20 +24,6 @@ $displays: inline-block, flex;
   
   $bp: nth($breakpoint, 1);
   
-  @media all and (min-width: #{$bp}px) {
-    
-    .bp-min-#{$bp} {
-      display: block !important;
-      @each $display in $displays {
-	      $dspl: nth($display, 1);
-	      &.bp-#{$dspl} {
-		      display: $dspl !important;
-	      }
-	    }
-    }
-
-  }
-  
   @media all and (max-width: #{$bp}px) {
     
     .bp-max-#{$bp} {
@@ -51,5 +37,50 @@ $displays: inline-block, flex;
     }
 
   }
- 
+  
+  @media all and (min-width: #{$bp}px) {
+    
+    .bp-min-#{$bp} {
+      display: block !important;
+      @each $display in $displays {
+	      $dspl: nth($display, 1);
+	      &.bp-#{$dspl} {
+		      display: $dspl !important;
+	      }
+	    }
+    }
+
+  }
+	
+}
+
+// Breakpoints max/min
+@each $breakpoint in $breakpoints {
+  
+  $bp1: nth($breakpoint, 1);
+  
+  @each $breakpoint in $breakpoints {
+  	
+  	$bp2: nth($breakpoint, 1);
+  	
+  	@if $bp1 > $bp2 {
+	  	
+	  	@media all and (max-width: #{$bp1}px) and (min-width: #{$bp2}px) {
+	    
+		    .bp-max#{$bp1}-min#{$bp2}, .bp-min#{$bp2}-max#{$bp1} {
+		      display: block !important;
+		      @each $display in $displays {
+			      $dspl: nth($display, 1);
+			      &.bp-#{$dspl} {
+				      display: $dspl !important;
+			      }
+			    }
+		    }
+		
+		  }
+	  		
+  	}
+	
+	}
+	
 }
