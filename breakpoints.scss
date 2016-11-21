@@ -1,6 +1,6 @@
 /*
 	
-	breakpoints.fab 1.0
+	breakpoints.fab 1.1
 	
 */
 
@@ -27,7 +27,7 @@ $displays: inline-block, flex;
   @media all and (min-width: #{$bp}px) {
     
     .bp-min-#{$bp} {
-      display: block;
+      display: block !important;
       @each $display in $displays {
 	      $dspl: nth($display, 1);
 	      &.bp-#{$dspl} {
@@ -41,7 +41,7 @@ $displays: inline-block, flex;
   @media all and (max-width: #{$bp}px) {
     
     .bp-max-#{$bp} {
-      display: block;
+      display: block !important;
       @each $display in $displays {
 	      $dspl: nth($display, 1);
 	      &.bp-#{$dspl} {
