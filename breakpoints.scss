@@ -1,0 +1,56 @@
+/*
+	
+	breakpoints.fab 1.0
+	
+*/
+
+
+/* --- VARS --- */
+
+// Breakpoints
+$breakpoints: 1280, 1024, 900, 768, 600, 480;
+
+// Display
+$displays: inline-block, flex;
+
+/* --- CLASSES --- */
+
+//
+[class*='bp-'] {
+	display: none !important;	
+}
+
+// Breakpoints
+@each $breakpoint in $breakpoints {
+  
+  $bp: nth($breakpoint, 1);
+  
+  @media all and (min-width: #{$bp}px) {
+    
+    .bp-min-#{$bp} {
+      display: block;
+      @each $display in $displays {
+	      $dspl: nth($display, 1);
+	      &.bp-#{$dspl} {
+		      display: $dspl !important;
+	      }
+	    }
+    }
+
+  }
+  
+  @media all and (max-width: #{$bp}px) {
+    
+    .bp-max-#{$bp} {
+      display: block;
+      @each $display in $displays {
+	      $dspl: nth($display, 1);
+	      &.bp-#{$dspl} {
+		      display: $dspl !important;
+	      }
+	    }
+    }
+
+  }
+ 
+}
