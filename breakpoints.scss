@@ -1,6 +1,6 @@
 /*
 	
-	breakpoints.fab 1.3
+	breakpoints.fab 1.4
 	
 */
 
@@ -8,7 +8,7 @@
 /* --- VARS --- */
 
 // Breakpoints
-$breakpoints: 1280, 1024, 1000;
+$breakpoints: 1024, 768, 640;
 
 // Display
 $displays: inline-block, flex;
@@ -24,62 +24,79 @@ $displays: inline-block, flex;
   
   $bp: nth($breakpoint, 1);
   
-  @media all and (max-width: #{$bp}px) {
-    
-    .bp-max#{$bp} {
-      display: block !important;
-      @each $display in $displays {
-	      $dspl: nth($display, 1);
-	      &.bp-#{$dspl} {
-		      display: $dspl !important;
-	      }
+  @for $i from 0 through 1 {
+  	
+  	$bpmax: ($bp - $i);
+  	$bpmin: ($bp + $i);
+  	
+	  @media all and (max-width: #{$bpmax}px) {
+	    
+	    .bp-max-#{$bpmax} {
+	      display: block !important;
+	      @each $display in $displays {
+		      $dspl: nth($display, 1);
+		      &.bp-#{$dspl} {
+			      display: $dspl !important;
+		      }
+		    }
 	    }
-    }
-
-  }
-  
-  @media all and (min-width: #{$bp + 1}px) {
-    
-    .bp-min#{$bp} {
-      display: block !important;
-      @each $display in $displays {
-	      $dspl: nth($display, 1);
-	      &.bp-#{$dspl} {
-		      display: $dspl !important;
-	      }
+	
+	  }
+	  
+	  @media all and (min-width: #{$bpmin}px) {
+	    
+	    .bp-min-#{$bpmin} {
+	      display: block !important;
+	      @each $display in $displays {
+		      $dspl: nth($display, 1);
+		      &.bp-#{$dspl} {
+			      display: $dspl !important;
+		      }
+		    }
 	    }
-    }
-
-  }
+	
+	  }
+	  
+	}
 	
 }
 
 // Breakpoints max/min
 @each $breakpoint in $breakpoints {
   
-  $bp1: nth($breakpoint, 1);
+  @for $i from 0 through 1 {
+  	
+  	$bp: nth($breakpoint, 1);
+  	$bpmax: ($bp - $i);
   
-  @each $breakpoint in $breakpoints {
-  	
-  	$bp2: nth($breakpoint, 1);
-  	
-  	@if $bp1 > $bp2 {
+	  @each $breakpoint in $breakpoints {
 	  	
-	  	@media all and (max-width: #{$bp1}px) and (min-width: #{$bp2 + 1}px) {
-	    
-		    .bp-max#{$bp1}-min#{$bp2}, .bp-min#{$bp2}-max#{$bp1} {
-		      display: block !important;
-		      @each $display in $displays {
-			      $dspl: nth($display, 1);
-			      &.bp-#{$dspl} {
-				      display: $dspl !important;
-			      }
-			    }
-		    }
-		
+	  	@for $i from 0 through 1 {
+  	
+		  	$bp: nth($breakpoint, 1);
+		  	$bpmin: ($bp + $i);
+	  	
+		  	@if $bpmax > $bpmin {
+			  	
+			  	@media all and (max-width: #{$bpmax}px) and (min-width: #{$bpmin}px) {
+			    
+				    .bp-max#{$bpmax}-min#{$bpmin}, .bp-min#{$bpmin}-max#{$bpmax} {
+				      display: block !important;
+				      @each $display in $displays {
+					      $dspl: nth($display, 1);
+					      &.bp-#{$dspl} {
+						      display: $dspl !important;
+					      }
+					    }
+				    }
+				
+				  }
+			  		
+		  	}
+		  
 		  }
-	  		
-  	}
+		
+		}
 	
 	}
 	
